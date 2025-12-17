@@ -1,0 +1,94 @@
+<div class="card">
+  <h2>New Invoice</h2>
+  
+  <form (ngSubmit)="saveInvoice()">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+      <div class="form-group">
+        <label>Customer *</label>
+        <select [(ngModel)]="invoice.customerId" name="customerId" required (change)="loadRecommendations()">
+          <option value="">Select customer</option>
+          <option *ngFor="let customer of customers" [value]="customer.id">
+            {{ customer.name }} - {{ customer.docNumber }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Provider *</label>
+        <select [(ngModel)]="invoice.providerId" name="providerId" required>
+          <option value="">Select provider</option>
+          <option *ngFor="let provider of providers" [value]="provider.id">
+            {{ provider.name }} - {{ provider.taxId }}
+          </option>
+        </select>
+      </div>
+    </div>
+    
+    <div *ngIf="recommendations && recommendations.products.length > 0" class="alert alert-info">
+      <strong>Recommendations:</strong> {{ recommendations.reason }}
+      <div style="margin-top: 10px;">
+        <button type="button" *ngFor="let product of recommendations.products" 
+                class="btn btn-secondary" 
+                style="margin-right: 5px; margin-bottom: 5px;"
+                (click)="addRecommendedProduct(product)">
+          Add {{ product.name }}
+        </button>
+      </div>
+    </div>
+    
+    <h3>Items</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Unit Price</th>
+          <th>Tax Rate</th>
+          <th>Line Total</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of invoice.items; let i = index">
+          <td>
+            <select [(ngModel)]="item.productId" name="productId{{i}}" required (change)="updateItem(i)">
+              <option value="">Select product</option>
+              <option *ngFor="let product of availableProducts" [value]="product.id">
+                {{ product.name }} (Stock: {{ product.stock }})
+              </option>
+            </select>
+          </td>
+          <td>
+            <input type="number" [(ngModel)]="item.quantity" name="quantity{{i}}" 
+                   min="1" required (input)="updateItem(i)" style="width: 80px;">
+          </td>
+          <td>{{ item.unitPrice | number:'1.2-2' }}</td>
+          <td>{{ item.taxRate }}%</td>
+          <td>{{ item.lineTotal | number:'1.2-2' }}</td>
+          <td>
+            <button type="button" class="btn btn-danger" (click)="removeItem(i)">Remove</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <button type="button" class="btn btn-secondary" (click)="addItem()">Add Item</button>
+    
+    <div style="margin-top: 20px; text-align: right;">
+      <div><strong>Subtotal:</strong> {{ invoice.subtotal | number:'1.2-2' }}</div>
+      <div><strong>Tax Total:</strong> {{ invoice.taxTotal | number:'1.2-2' }}</div>
+      <div style="font-size: 18px;"><strong>Total:</strong> {{ invoice.total | number:'1.2-2' }}</div>
+    </div>
+    
+    <div *ngIf="anomaly" class="alert" [class.alert-error]="anomaly.score > 0.5" [class.alert-info]="anomaly.score <= 0.5">
+      <strong>Anomaly Detection:</strong> {{ anomaly.explanation }} (Score: {{ anomaly.score | number:'1.2-2' }})
+    </div>
+    
+    <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+    
+    <div style="margin-top: 20px;">
+      <button type="submit" class="btn btn-primary" [disabled]="invoice.items.length === 0">Create Invoice</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+</div>
+

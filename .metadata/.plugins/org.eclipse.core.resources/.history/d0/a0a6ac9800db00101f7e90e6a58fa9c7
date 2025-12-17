@@ -1,0 +1,49 @@
+package com.invoicing.mapper;
+
+import com.invoicing.dto.CustomerDTO;
+import com.invoicing.entity.Customer;
+import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = "org.mapstruct.ap.MappingProcessor",
+    date = "2025-12-16T23:24:14-0500",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.44.0.v20251118-1623, environment: Java 21.0.9 (Eclipse Adoptium)"
+)
+@Component
+public class CustomerMapperImpl implements CustomerMapper {
+
+    @Override
+    public CustomerDTO toDTO(Customer customer) {
+        if ( customer == null ) {
+            return null;
+        }
+
+        CustomerDTO customerDTO = new CustomerDTO();
+
+        customerDTO.setAddress( customer.getAddress() );
+        customerDTO.setDocNumber( customer.getDocNumber() );
+        customerDTO.setEmail( customer.getEmail() );
+        customerDTO.setId( customer.getId() );
+        customerDTO.setName( customer.getName() );
+
+        return customerDTO;
+    }
+
+    @Override
+    public Customer toEntity(CustomerDTO dto) {
+        if ( dto == null ) {
+            return null;
+        }
+
+        Customer.CustomerBuilder customer = Customer.builder();
+
+        customer.address( dto.getAddress() );
+        customer.docNumber( dto.getDocNumber() );
+        customer.email( dto.getEmail() );
+        customer.id( dto.getId() );
+        customer.name( dto.getName() );
+
+        return customer.build();
+    }
+}

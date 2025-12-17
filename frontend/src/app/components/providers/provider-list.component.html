@@ -1,0 +1,71 @@
+<div class="card">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Providers</h2>
+    <button class="btn btn-primary" (click)="openModal()">New Provider</button>
+  </div>
+  
+  <div class="form-group">
+    <input type="text" [(ngModel)]="search" placeholder="Search..." (input)="loadProviders()">
+  </div>
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Tax ID</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let provider of providers">
+        <td>{{ provider.name }}</td>
+        <td>{{ provider.taxId }}</td>
+        <td>{{ provider.email }}</td>
+        <td>{{ provider.address }}</td>
+        <td>
+          <button class="btn btn-secondary" (click)="editProvider(provider)" style="margin-right: 5px;">Edit</button>
+          <button class="btn btn-danger" (click)="deleteProvider(provider.id!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="page === 0">Previous</button>
+    <span>Page {{ page + 1 }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="page >= totalPages - 1">Next</button>
+  </div>
+</div>
+
+<div class="modal" [class.show]="showModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>{{ editingProvider ? 'Edit' : 'New' }} Provider</h2>
+      <button class="close" (click)="closeModal()">&times;</button>
+    </div>
+    <form (ngSubmit)="saveProvider()">
+      <div class="form-group">
+        <label>Name *</label>
+        <input type="text" [(ngModel)]="formProvider.name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label>Tax ID *</label>
+        <input type="text" [(ngModel)]="formProvider.taxId" name="taxId" required>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="formProvider.email" name="email">
+      </div>
+      <div class="form-group">
+        <label>Address</label>
+        <textarea [(ngModel)]="formProvider.address" name="address"></textarea>
+      </div>
+      <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+    </form>
+  </div>
+</div>
+

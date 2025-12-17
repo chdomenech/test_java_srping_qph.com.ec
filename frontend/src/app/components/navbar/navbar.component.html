@@ -1,0 +1,20 @@
+<nav style="background: #007bff; color: white; padding: 15px 0; margin-bottom: 20px;">
+  <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+      <a routerLink="/invoices" style="color: white; text-decoration: none; font-size: 20px; font-weight: bold;">
+        Invoicing App
+      </a>
+    </div>
+    <div style="display: flex; gap: 20px; align-items: center;">
+      <a routerLink="/customers" style="color: white; text-decoration: none;">Customers</a>
+      <a routerLink="/providers" style="color: white; text-decoration: none;">Providers</a>
+      <a routerLink="/products" style="color: white; text-decoration: none;">Products</a>
+      <a routerLink="/invoices" style="color: white; text-decoration: none;">Invoices</a>
+      <span *ngIf="user">{{ user.username }}</span>
+      <button (click)="logout()" class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid white;">
+        Logout
+      </button>
+    </div>
+  </div>
+</nav>
+

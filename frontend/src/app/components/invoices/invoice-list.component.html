@@ -1,0 +1,45 @@
+<div class="card">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Invoices</h2>
+    <a routerLink="/invoices/new" class="btn btn-primary">New Invoice</a>
+  </div>
+  
+  <div class="form-group">
+    <input type="text" [(ngModel)]="search" placeholder="Search..." (input)="loadInvoices()">
+  </div>
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Customer</th>
+        <th>Provider</th>
+        <th>Date</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let invoice of invoices">
+        <td>{{ invoice.id }}</td>
+        <td>{{ invoice.customerName }}</td>
+        <td>{{ invoice.providerName }}</td>
+        <td>{{ invoice.issueDate | date:'short' }}</td>
+        <td>{{ invoice.total | number:'1.2-2' }}</td>
+        <td>{{ invoice.status }}</td>
+        <td>
+          <button class="btn btn-secondary" (click)="downloadPDF(invoice.id!)" style="margin-right: 5px;">PDF</button>
+          <button class="btn btn-danger" (click)="deleteInvoice(invoice.id!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="page === 0">Previous</button>
+    <span>Page {{ page + 1 }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="page >= totalPages - 1">Next</button>
+  </div>
+</div>
+
