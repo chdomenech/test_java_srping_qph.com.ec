@@ -212,20 +212,6 @@ La aplicación incluye datos de prueba:
 1. **Stock Update Consumer**: Actualiza el stock de productos después de crear factura
 2. **PDF Generation Consumer**: Procesa generación asíncrona de PDFs
 
-## Pruebas
-
-### Backend
-```bash
-cd backend
-mvn test
-```
-
-### Frontend
-```bash
-cd frontend
-npm test
-```
-
 ## Tecnologías Utilizadas
 
 ### Backend
