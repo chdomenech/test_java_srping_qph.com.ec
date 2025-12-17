@@ -284,6 +284,8 @@ Las variables de entorno principales están en `docker-compose.yml` y `backend/s
 ![Captura 2](./Captura%20de%20pantalla%202025-12-17%20113921.png)
 ![Captura 3](./Captura%20de%20pantalla%202025-12-17%20113947.png)
 ![Captura 4](./Captura%20de%20pantalla%202025-12-17%20114011.png)
+![Captura 5](./dock1.png)
+![Captura 6](./dock2.png)
 
 
 
